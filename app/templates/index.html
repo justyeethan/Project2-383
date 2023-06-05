@@ -1,0 +1,127 @@
+<html>
+  <head>
+    <title>NW & SW Algorithm Interactive Tool</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <meta name="HandheldFriendly" content="True" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="{{ url_for('static',  filename='scripts/GridBuilder.js') }}"></script>
+    <script src="{{ url_for('static', filename='scripts/app.js') }}"></script>
+    <link href="{{ url_for('static', filename='/styles/output.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='/styles/globals.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='/styles/style.css') }}" rel="stylesheet" />
+  </head>
+  <body>
+    <main class="flex min-h-screen flex-col items-center justify-between p-24">
+      <div
+        class="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex mb-5"
+      >
+        <p
+          class="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30"
+        >
+          Needleman-Wunsch/Smith-Waterman Algorithm Interactive Tool
+        </p>
+        <div
+          clas="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none"
+        >
+          <div
+            class="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
+          >
+            By Ethan Yee, Foziya Reshid, Joyce Lee
+          </div>
+        </div>
+      </div>
+
+      <table>
+        <tr>
+          <td rowspan="10" id="result"></td>
+        </tr>
+      </table>
+
+      <div id="cont"></div>
+
+      <table
+        class="mt-5 b-32 grid text-center flex justify-center lg:mb-0 lg:grid-cols-5 lg:text-left"
+      >
+        <tr
+          class="group rounded-xlg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-gray-800/30"
+        >
+          <td class="mb-3 text-2xl font-semibold"><label>Sequence 1</label></td>
+          <td colspan="4" class="mr-10">
+            <input
+              id="seq_1"
+              class="seq mt-2 bg-transparent border rounded-[7px] px-1 py-1 border-neutral-700 rounded-xlg border-gray-300"
+              value="GATTACA"
+              maxlength="20"
+            />
+          </td>
+        </tr>
+        <tr
+          class="group rounded-xlg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-gray-800/30"
+        >
+          <td class="mb-3 text-2xl font-semibold"><label>Sequence 2</label></td>
+          <td colspan="4">
+            <input
+              id="seq_2"
+              class="seq mt-2 bg-transparent border rounded-[7px] px-1 py-1 border-neutral-700 rounded-xlg border-gray-300"
+              value="GTCGACG"
+              maxlength="20"
+            />
+          </td>
+        </tr>
+        <tr colspan="3">
+          <th><label>Match Score</label></th>
+          <th><label>Mismatch Score</label></th>
+          <th><label>Gap Score</label></th>
+        </tr>
+        <tr>
+          <td>
+            <input
+              class="params peer block min-h-[auto] w-full rounded border-2 border rounded-[7px] px-1 py-1 border-neutral-700 rounded-xlg border-gray-300 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+              id="matchScore"
+              type="number"
+              value="1"
+            />
+          </td>
+          <td>
+            <input
+              class="params peer block min-h-[auto] w-full rounded border-2 border rounded-[7px] px-1 py-1 border-neutral-700 rounded-xlg border-gray-300 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+              id="mismatchScore"
+              type="number"
+              value="-1"
+            />
+          </td>
+          <td>
+            <input
+              class="params peer block min-h-[auto] w-full rounded border-2 border rounded-[7px] px-1 py-1 border-neutral-700 rounded-xlg border-gray-300 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+              id="gapScore"
+              type="number"
+              value="-2"
+            />
+          </td>
+        </tr>
+      </table>
+
+      <div class="mb-32 grid text-center lg:mb-0 lg:grid-cols-5 lg:text-left">
+        <button
+          class="btn-compute group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+        >
+          Compute Optimal Alignment
+        </button>
+        <button
+          class="btn-clear group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+        >
+          Clear Path
+        </button>
+        <button
+          class="btn-custom group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+        >
+          Custom Path
+        </button>
+      </div>
+    </main>
+  </body>
+  <script></script>
+</html>

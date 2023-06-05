@@ -1,0 +1,6 @@
+node_modules/
+\.idea/
+venv/
+.DS_Store
+__pycache__/
+.vercel
