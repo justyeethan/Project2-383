@@ -164,24 +164,24 @@ let GridBuilder = (function () {
     mDomResultContainer.append($table);
   }
 
-  function displayTooltip(text, x, y) {
-    if ($("#tooltip").length === 0) {
-      $("body").prepend($("<div />").attr("id", "tooltip"));
-    }
-    let tt = $("#tooltip").html("");
-    let tooltipHeight = 30;
+  // function displayTooltip(text, x, y) {
+  //   if ($("#tooltip").length === 0) {
+  //     $("body").prepend($("<div />").attr("id", "tooltip"));
+  //   }
+  //   let tt = $("#tooltip").html("");
+  //   let tooltipHeight = 30;
 
-    let xBorder = x + tt.width() + 30;
-    if (xBorder > $(window).width()) x -= xBorder - $(window).width();
+  //   let xBorder = x + tt.width() + 30;
+  //   if (xBorder > $(window).width()) x -= xBorder - $(window).width();
 
-    let yBorder = y + tt.height() + 30;
-    if (yBorder > $(window).height()) y -= tooltipHeight * 2;
+  //   let yBorder = y + tt.height() + 30;
+  //   if (yBorder > $(window).height()) y -= tooltipHeight * 2;
 
-    tt.append(text);
-    tt.css("left", x);
-    tt.css("top", y);
-    tt.css("display", "block");
-  }
+  //   tt.append(text);
+  //   tt.css("left", x);
+  //   tt.css("top", y);
+  //   tt.css("display", "block");
+  // }
 
   function hideTooltip() {
     $("#tooltip").css("display", "none");
@@ -197,11 +197,11 @@ let GridBuilder = (function () {
     let targetDom = $("#" + x + "_" + y);
     let pos = targetDom.offset();
     targetDom.addClass("highlight-main");
-    displayTooltip(
-      $table,
-      pos.left + targetDom.width() + 10,
-      pos.top - targetDom.height() / 2
-    );
+    // displayTooltip(
+    //   $table,
+    //   pos.left + targetDom.width() + 10,
+    //   pos.top - targetDom.height() / 2
+    // );
   }
 
   function getCssClassesFromDirection(directions) {
@@ -236,7 +236,7 @@ let GridBuilder = (function () {
 
     let $td = $("<td />")
       .html(mCellMap[0 + "_" + n].winningScore)
-      .addClass("bg-gray-500")
+      .addClass("bg-gray-700")
       .attr("data-x", 0)
       .attr("data-y", n)
       .attr("id", 0 + "_" + n);
@@ -255,7 +255,7 @@ let GridBuilder = (function () {
 
       $td = $("<td />")
         .addClass(cssClasses)
-        .addClass("bg-gray-500")
+        .addClass("bg-gray-700")
         .html(mCellMap[dataPointIndex].winningScore)
         .attr("data-x", idx + 1)
         .attr("data-y", charIndex + 1)
@@ -347,7 +347,7 @@ let GridBuilder = (function () {
           ? "Included In Alignment"
           : "Not Included In Alignment";
 
-        displayTooltip(text, pos.left + leftMargin, pos.top + topMargin);
+        // displayTooltip(text, pos.left + leftMargin, pos.top + topMargin);
       },
       function () {
         hideTooltip();
