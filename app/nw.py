@@ -1,8 +1,9 @@
 import sys
+import time
 
 
 def get_score(ALIGNMENTS):
-    print('align', ALIGNMENTS)
+    # print('align', ALIGNMENTS)
     return {'alignments': [{ele[0]: ele[1]} for ele in ALIGNMENTS], 'score': str(ALIGNMENTS[0][3][0][1])}
 
 
@@ -104,11 +105,12 @@ def matrix_eval(matrix, sequence1, sequence2, matrix_row_n, matrix_column_n, gap
 
 def matrix_construction(sequence1_length, sequence2_length):
     return [[[[None] for _ in range(2)] for _ in range(
-        sequence1_length)] for i in range(sequence2_length)]
+        sequence2_length)] for i in range(sequence1_length)]
 
 
 # Defaults for main function, but can be changed based on params
-def main(sequence1='GATTACA', sequence2='GTCGACG', gap_score=-2, match_score=1, mismatch_score=-1):
+def main(sequence1, sequence2, gap_score=-2, match_score=1, mismatch_score=-1):
+    init_time = time.time()
     ALN_PATHWAYS = []  # Initiating List of Discovered aln Pathways
     MATRIX_ROW_N = len(sequence1)+1
     MATRIX_COLUMN_N = len(sequence2)+1
@@ -116,6 +118,18 @@ def main(sequence1='GATTACA', sequence2='GTCGACG', gap_score=-2, match_score=1, 
     res = matrix_eval(matrix, sequence1, sequence2, MATRIX_ROW_N,
                       MATRIX_COLUMN_N, gap_score, match_score, mismatch_score, ALN_PATHWAYS)
     # print(res)
+    res['time'] = str(time.time()-init_time)
+
+    # Metadata
+    res['input_params'] = {
+        'original_seq': {
+            'sequence1': str(sequence1),
+            'sequence2': str(sequence2)
+        },
+        'gap_score': str(gap_score),
+        'match_score': str(match_score),
+        'mismatch_score': str(mismatch_score)
+    }
     return res
 
 

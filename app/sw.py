@@ -1,4 +1,5 @@
 import numpy as np
+import time
 import sys
 
 STOP = 0
@@ -90,16 +91,29 @@ def smith_waterman(seq1, seq2, MATCH, MISMATCH, GAP):
     print(aligned_seq2)
     return {
         'alignments': [{aligned_seq1: aligned_seq2}],
-        'score': str(max_score)
+        'score': str(max_score),
     }
 
 
 def main(sequence1, sequence2, MATCH=1, MISMATCH=-1, GAP=-1):
-    print(sequence1)
-    print(sequence2)
+    # print(sequence1)
+    # print(sequence2)
+    init_time = time.time()
     res = smith_waterman(
         sequence1, sequence2, MATCH, MISMATCH, GAP)
-    print('test', res)
+    # print('test', res)
+    res['time'] = str(time.time() - init_time)
+    res['input_params'] = {
+        'original_seq': {
+            'sequence1': str(sequence1),
+            'sequence2': str(sequence2)
+        },
+        'gap_score': str(GAP),
+        'match_score': str(MATCH),
+        'mismatch_score': str(MISMATCH)
+
+    }
+    print(res)
     return res
 
 
